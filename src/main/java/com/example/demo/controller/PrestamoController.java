@@ -53,7 +53,7 @@ public class PrestamoController {
 
         PrestamoDTO resultado = prestamoService.postPrestamo(prestamoDto);
 
-        LOG.debug("PrestamoController postPrestamo se ha creado el prestamo con id {}", resultado.getId());
+        LOG.debug("PrestamoController postPrestamo se ha creado el prestamo con id {}", resultado.id());
 
         return ResponseEntity.ok(resultado);
     }

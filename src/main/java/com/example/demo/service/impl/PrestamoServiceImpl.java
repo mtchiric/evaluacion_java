@@ -12,7 +12,6 @@ import com.example.demo.service.PrestamoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -65,7 +64,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         prestamoRepository.save(prestamoDAO);
         PrestamoDTO resultado = prestamoMapper.PrestamoDaoToPrestamoDto(prestamoDAO);
 
-        LOG.debug("PrestamoServiceImpl postPrestamo se ha creado el prestamo con id {}", resultado.getId());
+        LOG.debug("PrestamoServiceImpl postPrestamo se ha creado el prestamo con id {}", resultado.id());
 
         return resultado;
     }
@@ -77,16 +76,16 @@ public class PrestamoServiceImpl implements PrestamoService {
         PrestamoDAO existePrestamo = prestamoRepository.findById(id)
                                                 .orElseThrow(() -> new RuntimeException("Prestamo no encontrado con id: " + id));
 
-        existePrestamo.setLibro(libroMapper.LibroDtoToLibroDao(prestamoDto.getLibro()));
-        existePrestamo.setUsuario(usuarioMapper.UsuarioDtoToUsuarioDao(prestamoDto.getUsuario()));
-        existePrestamo.setFechaPrestamo(prestamoDto.getFechaPrestamo());
-        existePrestamo.setFechaDevolucion(prestamoDto.getFechaDevolucion());
+        existePrestamo.setLibro(libroMapper.LibroDtoToLibroDao(prestamoDto.libro()));
+        existePrestamo.setUsuario(usuarioMapper.UsuarioDtoToUsuarioDao(prestamoDto.usuario()));
+        existePrestamo.setFechaPrestamo(prestamoDto.fechaPrestamo());
+        existePrestamo.setFechaDevolucion(prestamoDto.fechaDevolucion());
 
         prestamoRepository.save(existePrestamo);
 
         PrestamoDTO resultado = prestamoMapper.PrestamoDaoToPrestamoDto(existePrestamo);
 
-        LOG.debug("PrestamoServiceImpl putPrestamo se ha actualizado el prestamo con id {}", resultado.getId());
+        LOG.debug("PrestamoServiceImpl putPrestamo se ha actualizado el prestamo con id {}", resultado.id());
 
         return resultado;
     }
@@ -98,16 +97,16 @@ public class PrestamoServiceImpl implements PrestamoService {
         PrestamoDAO existePrestamo = prestamoRepository.findById(id)
                                                 .orElseThrow(() -> new RuntimeException("Prestamo no encontrado con id: " + id));
 
-        if(prestamoDto.getLibro() != null) existePrestamo.setLibro(libroMapper.LibroDtoToLibroDao(prestamoDto.getLibro()));
-        if(prestamoDto.getUsuario() != null) existePrestamo.setUsuario(usuarioMapper.UsuarioDtoToUsuarioDao(prestamoDto.getUsuario()));
-        if(prestamoDto.getFechaPrestamo() != null) existePrestamo.setFechaPrestamo(prestamoDto.getFechaPrestamo());
-        if(prestamoDto.getFechaDevolucion() != null) existePrestamo.setFechaDevolucion(prestamoDto.getFechaDevolucion());
+        if(prestamoDto.libro() != null) existePrestamo.setLibro(libroMapper.LibroDtoToLibroDao(prestamoDto.libro()));
+        if(prestamoDto.usuario() != null) existePrestamo.setUsuario(usuarioMapper.UsuarioDtoToUsuarioDao(prestamoDto.usuario()));
+        if(prestamoDto.fechaPrestamo() != null) existePrestamo.setFechaPrestamo(prestamoDto.fechaPrestamo());
+        if(prestamoDto.fechaDevolucion() != null) existePrestamo.setFechaDevolucion(prestamoDto.fechaDevolucion());
 
         prestamoRepository.save(existePrestamo);
 
         PrestamoDTO resultado = prestamoMapper.PrestamoDaoToPrestamoDto(existePrestamo);
 
-        LOG.debug("PrestamoServiceImpl patchPrestamo se ha actualizado el prestamo con id {}", resultado.getId());
+        LOG.debug("PrestamoServiceImpl patchPrestamo se ha actualizado el prestamo con id {}", resultado.id());
 
         return resultado;
     }

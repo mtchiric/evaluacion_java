@@ -53,7 +53,7 @@ public class LibroController {
 
         LibrosDTO resultado = libroService.crearLibro(libroDto);
 
-        LOG.debug("LibroController crearLibro se ha creado el libro con id {}", resultado.getId());
+        LOG.debug("LibroController crearLibro se ha creado el libro con id {}", resultado.id());
 
         return ResponseEntity.ok(resultado);
     }

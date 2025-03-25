@@ -6,7 +6,6 @@ import com.example.demo.dao.UsuarioDAO;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.dao.PrestamoDAO;
 import com.example.demo.repository.PrestamoRepository;
-import jakarta.persistence.Column;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;

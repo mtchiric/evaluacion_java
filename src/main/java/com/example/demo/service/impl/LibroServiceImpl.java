@@ -11,7 +11,6 @@ import com.example.demo.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,7 +63,7 @@ public class LibroServiceImpl implements LibroService {
         libroRepository.save(libroDAO);
         LibrosDTO resultado = libroMapper.LibroDaoToLibroDto(libroDAO);
 
-        LOG.debug("LibroServiceImpl crearLibro se ha creado el libro con id {}", resultado.getId());
+        LOG.debug("LibroServiceImpl crearLibro se ha creado el libro con id {}", resultado.id());
 
         return resultado;
     }
@@ -76,16 +75,16 @@ public class LibroServiceImpl implements LibroService {
         LibrosDAO existeLibro = libroRepository.findById(id)
                                                 .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + id));
 
-        existeLibro.setTitulo(libroDto.getTitulo());
-        existeLibro.setAutor(libroDto.getAutor());
-        existeLibro.setIsbn(libroDto.getIsbn());
-        existeLibro.setFechaPublicacion(libroDto.getFechaPublicacion());
+        existeLibro.setTitulo(libroDto.titulo());
+        existeLibro.setAutor(libroDto.autor());
+        existeLibro.setIsbn(libroDto.isbn());
+        existeLibro.setFechaPublicacion(libroDto.fechaPublicacion());
 
         libroRepository.save(existeLibro);
 
         LibrosDTO resultado = libroMapper.LibroDaoToLibroDto(existeLibro);
 
-        LOG.debug("LibroServiceImpl putLibro se ha actualizado el libro con id {}", resultado.getId());
+        LOG.debug("LibroServiceImpl putLibro se ha actualizado el libro con id {}", resultado.id());
 
         return resultado;
     }
@@ -97,16 +96,16 @@ public class LibroServiceImpl implements LibroService {
         LibrosDAO existeLibro = libroRepository.findById(id)
                                                 .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + id));
 
-        if(libroDto.getTitulo() != null) existeLibro.setTitulo(libroDto.getTitulo());
-        if(libroDto.getAutor() != null) existeLibro.setAutor(libroDto.getAutor());
-        if(libroDto.getIsbn() != null) existeLibro.setIsbn(libroDto.getIsbn());
-        if(libroDto.getFechaPublicacion() != null) existeLibro.setFechaPublicacion(libroDto.getFechaPublicacion());
+        if(libroDto.titulo() != null) existeLibro.setTitulo(libroDto.titulo());
+        if(libroDto.autor() != null) existeLibro.setAutor(libroDto.autor());
+        if(libroDto.isbn() != null) existeLibro.setIsbn(libroDto.isbn());
+        if(libroDto.fechaPublicacion() != null) existeLibro.setFechaPublicacion(libroDto.fechaPublicacion());
 
         libroRepository.save(existeLibro);
 
         LibrosDTO resultado = libroMapper.LibroDaoToLibroDto(existeLibro);
 
-        LOG.debug("LibroServiceImpl patchLibro se ha actualizado el libro con id {}", resultado.getId());
+        LOG.debug("LibroServiceImpl patchLibro se ha actualizado el libro con id {}", resultado.id());
 
         return resultado;
     }

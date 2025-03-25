@@ -11,7 +11,6 @@ import com.example.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,7 +63,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuarioDAO);
         UsuarioDTO resultado = usuarioMapper.UsuarioDaoToUsuarioDto(usuarioDAO);
 
-        LOG.debug("UsuarioServiceImpl postUsuario se ha creado el usuario con id {}", resultado.getId());
+        LOG.debug("UsuarioServiceImpl postUsuario se ha creado el usuario con id {}", resultado.id());
 
         return resultado;
     }
@@ -76,16 +75,16 @@ public class UsuarioServiceImpl implements UsuarioService {
         UsuarioDAO existeUsuario = usuarioRepository.findById(id)
                                                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
 
-        existeUsuario.setNombre(usuarioDto.getNombre());
-        existeUsuario.setEmail(usuarioDto.getEmail());
-        existeUsuario.setTelefono(usuarioDto.getTelefono());
-        existeUsuario.setFechaRegistro(usuarioDto.getFechaRegistro());
+        existeUsuario.setNombre(usuarioDto.nombre());
+        existeUsuario.setEmail(usuarioDto.email());
+        existeUsuario.setTelefono(usuarioDto.telefono());
+        existeUsuario.setFechaRegistro(usuarioDto.fechaRegistro());
 
         usuarioRepository.save(existeUsuario);
 
         UsuarioDTO resultado = usuarioMapper.UsuarioDaoToUsuarioDto(existeUsuario);
 
-        LOG.debug("UsuarioServiceImpl putUsuario se ha actualizado el usuario con id {}", resultado.getId());
+        LOG.debug("UsuarioServiceImpl putUsuario se ha actualizado el usuario con id {}", resultado.id());
 
         return resultado;
     }
@@ -97,16 +96,16 @@ public class UsuarioServiceImpl implements UsuarioService {
         UsuarioDAO existeUsuario = usuarioRepository.findById(id)
                                                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
 
-        if(usuarioDto.getNombre() != null) existeUsuario.setNombre(usuarioDto.getNombre());
-        if(usuarioDto.getEmail() != null) existeUsuario.setEmail(usuarioDto.getEmail());
-        if(usuarioDto.getTelefono() != null) existeUsuario.setTelefono(usuarioDto.getTelefono());
-        if(usuarioDto.getFechaRegistro() != null) existeUsuario.setFechaRegistro(usuarioDto.getFechaRegistro());
+        if(usuarioDto.nombre() != null) existeUsuario.setNombre(usuarioDto.nombre());
+        if(usuarioDto.email() != null) existeUsuario.setEmail(usuarioDto.email());
+        if(usuarioDto.telefono() != null) existeUsuario.setTelefono(usuarioDto.telefono());
+        if(usuarioDto.fechaRegistro() != null) existeUsuario.setFechaRegistro(usuarioDto.fechaRegistro());
 
         usuarioRepository.save(existeUsuario);
 
         UsuarioDTO resultado = usuarioMapper.UsuarioDaoToUsuarioDto(existeUsuario);
 
-        LOG.debug("UsuarioServiceImpl patchUsuario se ha actualizado el usuario con id {}", resultado.getId());
+        LOG.debug("UsuarioServiceImpl patchUsuario se ha actualizado el usuario con id {}", resultado.id());
 
         return resultado;
     }

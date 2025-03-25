@@ -53,7 +53,7 @@ public class UsuarioController {
 
         UsuarioDTO resultado = usuarioService.postUsuario(usuarioDto);
 
-        LOG.debug("UsuarioController postUsuario se ha creado el usuario con id {}", resultado.getId());
+        LOG.debug("UsuarioController postUsuario se ha creado el usuario con id {}", resultado.id());
 
         return ResponseEntity.ok(resultado);
     }
