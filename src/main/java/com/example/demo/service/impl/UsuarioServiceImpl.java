@@ -7,6 +7,8 @@ import com.example.demo.repository.PrestamoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demo.dto.UsuarioDTO;
+import com.example.demo.exception.BusinessRuleException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +48,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         LOG.debug("UsuarioServiceImpl getUsuarioId...");
 
         UsuarioDAO result = usuarioRepository.findById(id)
-                                        .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+                                        .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
         UsuarioDTO resultado = usuarioMapper.UsuarioDaoToUsuarioDto(result);
 
@@ -73,7 +75,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         LOG.debug("UsuarioServiceImpl putUsuario...");
 
         UsuarioDAO existeUsuario = usuarioRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
         existeUsuario.setNombre(usuarioDto.nombre());
         existeUsuario.setEmail(usuarioDto.email());
@@ -94,7 +96,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         LOG.debug("UsuarioServiceImpl patchUsuario...");
 
         UsuarioDAO existeUsuario = usuarioRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
         if(usuarioDto.nombre() != null) existeUsuario.setNombre(usuarioDto.nombre());
         if(usuarioDto.email() != null) existeUsuario.setEmail(usuarioDto.email());
@@ -115,10 +117,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         LOG.debug("UsuarioServiceImpl deleteUsuario...");
 
         UsuarioDAO existeUsuario = usuarioRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
         if(prestamoRepository.existsByUsuarioId(id)){
-            throw new RuntimeException("No se puede eliminar el usuario porque tiene prestamos asociados");
+            throw new BusinessRuleException("No se puede eliminar el usuario porque tiene prestamos asociados");
         }
 
         usuarioRepository.deleteById(id);

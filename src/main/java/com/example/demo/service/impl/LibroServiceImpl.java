@@ -7,6 +7,8 @@ import com.example.demo.repository.PrestamoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demo.dto.LibrosDTO;
+import com.example.demo.exception.BusinessRuleException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +48,7 @@ public class LibroServiceImpl implements LibroService {
         LOG.debug("LibroServiceImpl obtenerLibroId...");
 
         LibrosDAO result = libroRepository.findById(id)
-                                        .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + id));
+                                        .orElseThrow(() -> new ResourceNotFoundException("Libro no encontrado con id: " + id));
 
         LibrosDTO resultado = libroMapper.LibroDaoToLibroDto(result);
 
@@ -73,7 +75,7 @@ public class LibroServiceImpl implements LibroService {
         LOG.debug("LibroServiceImpl putLibro...");
 
         LibrosDAO existeLibro = libroRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Libro no encontrado con id: " + id));
 
         existeLibro.setTitulo(libroDto.titulo());
         existeLibro.setAutor(libroDto.autor());
@@ -94,7 +96,7 @@ public class LibroServiceImpl implements LibroService {
         LOG.debug("LibroServiceImpl patchLibro...");
 
         LibrosDAO existeLibro = libroRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Libro no encontrado con id: " + id));
 
         if(libroDto.titulo() != null) existeLibro.setTitulo(libroDto.titulo());
         if(libroDto.autor() != null) existeLibro.setAutor(libroDto.autor());
@@ -115,10 +117,10 @@ public class LibroServiceImpl implements LibroService {
         LOG.debug("LibroServiceImpl deleteLibro...");
 
         LibrosDAO existeLibro = libroRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Libro no encontrado con id: " + id));
 
         if(prestamoRepository.existsByLibroId(id)){
-            throw new RuntimeException("No se puede eliminar el libro porque tiene prestamos asociados");
+            throw new BusinessRuleException("No se puede eliminar el libro porque tiene prestamos asociados");
         }
 
         libroRepository.deleteById(id);

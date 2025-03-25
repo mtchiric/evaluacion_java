@@ -8,6 +8,7 @@ import com.example.demo.repository.PrestamoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demo.dto.PrestamoDTO;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.PrestamoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         LOG.debug("PrestamoServiceImpl getPrestamoId...");
 
         PrestamoDAO result = prestamoRepository.findById(id)
-                                        .orElseThrow(() -> new RuntimeException("Prestamo no encontrado con id: " + id));
+                                        .orElseThrow(() -> new ResourceNotFoundException("Prestamo no encontrado con id: " + id));
 
         PrestamoDTO resultado = prestamoMapper.PrestamoDaoToPrestamoDto(result);
 
@@ -74,7 +75,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         LOG.debug("PrestamoServiceImpl putPrestamo...");
 
         PrestamoDAO existePrestamo = prestamoRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Prestamo no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Prestamo no encontrado con id: " + id));
 
         existePrestamo.setLibro(libroMapper.LibroDtoToLibroDao(prestamoDto.libro()));
         existePrestamo.setUsuario(usuarioMapper.UsuarioDtoToUsuarioDao(prestamoDto.usuario()));
@@ -95,7 +96,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         LOG.debug("PrestamoServiceImpl patchPrestamo...");
 
         PrestamoDAO existePrestamo = prestamoRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Prestamo no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Prestamo no encontrado con id: " + id));
 
         if(prestamoDto.libro() != null) existePrestamo.setLibro(libroMapper.LibroDtoToLibroDao(prestamoDto.libro()));
         if(prestamoDto.usuario() != null) existePrestamo.setUsuario(usuarioMapper.UsuarioDtoToUsuarioDao(prestamoDto.usuario()));
@@ -116,7 +117,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         LOG.debug("PrestamoServiceImpl deletePrestamo...");
 
         PrestamoDAO existePrestamo = prestamoRepository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Prestamo no encontrado con id: " + id));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Prestamo no encontrado con id: " + id));
 
         prestamoRepository.deleteById(id);
 
